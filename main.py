@@ -121,7 +121,14 @@ def lambda_handler(event, context):
     print(f"Received event: {event}")
     print(f"Received context: {context}")
     
-    topic = event['topic']
+    # Parse the body if it comes from API Gateway
+    if 'body' in event and event['body']:
+        body = json.loads(event['body'])
+        topic = body['topic']
+    else:
+        # Direct Lambda invocation
+        topic = event['topic']
+        
     generated_blog = generate_content(topic=topic)
     
     if generated_blog:
@@ -129,15 +136,29 @@ def lambda_handler(event, context):
         file_name = f'blogs/{current_time}.txt'
         upload_to_s3(bucket_name='msaifee-generated-blog', file_name=file_name, blog_content=generated_blog)
         
-        return{
+        return {
             'statusCode': 200,
-            'payload': json.dumps({'message': 'Blog generated successfully !!'})
+            'headers': {
+                  'Content-Type': 'application/json'
+            },
+            'body': json.dumps({
+                'content': generated_blog,
+                'message': 'Blog generated successfully!!',
+                'topic': topic,
+                'file_name': file_name,
+                'timestamp': current_time
+            })
         }
         
     else:
-        return{
+       return {
             'statusCode': 500,
-            'payload': json.dumps({'message': 'Blog generation failed !!'})
+            'headers': {
+                  'Content-Type': 'application/json'
+            },
+            'body': json.dumps({
+                'message': 'Blog generation failed!!'
+            })
         }
         
         
