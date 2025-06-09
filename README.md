@@ -23,7 +23,7 @@ mkdir python
 
 2. Copy the dependencies to the python directory
 ```
-cp -r dds_env/lib/python3.8/site-packages/* python/
+cp -r dds_env/lib/python3.12/site-packages/* python/
 ```
 
 3. Zip the python directory

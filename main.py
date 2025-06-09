@@ -2,6 +2,7 @@ import json
 import boto3
 import botocore.config
 from datetime import datetime
+import requests
 
 
 """
@@ -35,7 +36,13 @@ Content request to Amazon Bedrock
 """
 def generate_content(topic:str) -> str:
     
-    prompt = f"""Generate a blog post on the topic {topic} in 200 words"""
+    ## Get the quote to add in the prompt
+    quote = get_inspiration_quote()
+    print(f"Quote: {quote}")
+    
+    prompt = f"""Generate a blog post on the topic {topic} in 200 words
+        Start with this inspirational quote: {quote}
+    """
     
     body = {
         "inferenceConfig": {
@@ -132,3 +139,18 @@ def lambda_handler(event, context):
             'statusCode': 500,
             'payload': json.dumps({'message': 'Blog generation failed !!'})
         }
+        
+        
+"""
+Simple function to get a quote using requests library (requires Lambda Layer)
+"""
+def get_inspiration_quote():
+    try:
+        response = requests.get('https://dummyjson.com/quotes/random', timeout=5)
+        if response.status_code == 200:
+            data = response.json()
+            return data.get('quote', 'Stay inspired!')
+        else:
+            return 'Stay inspired!'
+    except:
+        return 'Stay inspired!'
