@@ -32,3 +32,9 @@ zip -r python.zip python/
 ```
 
 4. Upload the zip file to AWS Lambda Layer
+
+
+## Run locally
+1. Setup AWS CLI
+2. Setup AWS Profile with AccessID and AccessSecret
+3. Run main.py
