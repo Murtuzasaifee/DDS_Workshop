@@ -91,7 +91,7 @@ with st.sidebar:
     st.header("⚙️ Configuration")
     
     # API endpoint (pre-configured)
-    api_url = "https://meloito468.execute-api.us-east-1.amazonaws.com/blog_generator"
+    api_url = "https://1o8ggps0u9.execute-api.us-east-1.amazonaws.com/dev/blog_generator_lambda"
     st.text_input(
         "API Endpoint",
         value=api_url,
@@ -135,7 +135,7 @@ with col1:
             with st.spinner("Generating your blog post... This may take a few moments."):
                 try:
                     # API endpoint
-                    api_url = "https://meloito468.execute-api.us-east-1.amazonaws.com/blog_generator"
+                    api_url = "{YOUR_API_REST_ENDPOINT}"
                     
                     # Prepare the request payload
                     payload = {

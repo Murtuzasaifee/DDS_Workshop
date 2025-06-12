@@ -134,7 +134,7 @@ def lambda_handler(event, context):
     if generated_blog:
         current_time = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
         file_name = f'blogs/{current_time}.txt'
-        upload_to_s3(bucket_name='msaifee-generated-blog', file_name=file_name, blog_content=generated_blog)
+        upload_to_s3(bucket_name="YOUR_BUCKET_NAE", file_name=file_name, blog_content=generated_blog)
         
         return {
             'statusCode': 200,
